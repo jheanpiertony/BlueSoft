@@ -1,0 +1,51 @@
+﻿@model Common.Models.Libro
+@using Common.Models
+
+@{
+    ViewData["Title"] = "Crear libro";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Libro</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreLibro" class="control-label"></label>
+                <input asp-for="NombreLibro" class="form-control" />
+                <span asp-validation-for="NombreLibro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ISBN" class="control-label"></label>
+                <input asp-for="ISBN" class="form-control" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutorId" class="control-label"></label>
+                <select asp-for="AutorId" class="form-control" asp-items="ViewBag.AutorId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-info">Volver a listado</a>
+            </div>
+        </form>
+        <form data-ajax="true" data-ajax-method="post" asp-controller="Libros" asp-action="AsignarCategoriasLibro" data-ajax-update="#ListaCategoriasLibro">
+            <div class="form-group">
+                <label class="control-label">Categorias del libro</label>
+                <select id="CategoriaId" name="CategoriaId" asp-items="@ViewBag.CategoriaId" class="form-control"></select>
+            </div>
+            <input type="submit" value="Agregar categoria al libro" class="btn btn-primary"/>
+        </form>
+    </div>
+</div>
+<hr />
+<div id="ListaCategoriasLibro">
+    @await Html.PartialAsync("_ListaCategoriasLibro", (List<Categoria>)ViewBag.ListaCategoriasLibro)
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
