@@ -9,17 +9,22 @@ using Common.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Common.ViewModels;
+using AutoMapper;
 
 namespace Web.Controllers
 {
     public class LibrosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _autoMapper;
         public string ListaCategoriasLibro = string.Empty;
 
-        public LibrosController(ApplicationDbContext context)
+        public LibrosController(
+            ApplicationDbContext context,
+            IMapper autoMapper)
         {
-            _context = context;           
+            _context = context;
+            _autoMapper = autoMapper;
         }
 
         // GET: Libros
@@ -30,8 +35,10 @@ namespace Web.Controllers
 
             IQueryable<string> categoriaQuery = _context.Categorias.OrderBy(nc => nc.NombreCategoria).Select(x => x.NombreCategoria);
 
-            var listaLibros = from m in _context.Libros
-                              select m;
+            //var listaLibros = from m in _context.Libros
+            //                  select m;
+
+            var listaLibros = _context.Libros.Select(x => _autoMapper.Map<Libro>(x));
 
             if (!string.IsNullOrEmpty(searchString))
             {
