@@ -38,7 +38,7 @@ namespace Web.Controllers
             //var listaLibros = from m in _context.Libros
             //                  select m;
 
-            var listaLibros = _context.Libros.Select(x => _autoMapper.Map<Libro>(x));
+            var listaLibros = _context.Libros.Include(a => a.Autor).Select(x => _autoMapper.Map<Libro>(x));
 
             if (!string.IsNullOrEmpty(searchString))
             {

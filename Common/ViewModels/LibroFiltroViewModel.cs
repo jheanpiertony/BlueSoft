@@ -12,5 +12,6 @@ namespace Common.ViewModels
         public SelectList Categoria { get; set; }
         public string LibroCategoria { get; set; }
         public string FiltrarString { get; set; }
+        public String Autor { get; set; }
     }
 }
